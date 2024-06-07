@@ -1,0 +1,70 @@
+<mvc:View
+    controllerName="dashboard.controller.Details"
+    height="100%"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:layout="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:u="sap.ui.unified"
+    xmlns:upload="sap.m.upload"
+    xmlns="sap.m"
+    xmlns:f="sap.f">
+    <f:DynamicPage showFooter="false" id="_IDGenDynamicPage1" headerExpanded="true">
+        <f:title>
+            <f:DynamicPageTitle id="_IDGenDynamicPageTitle1">
+                <f:heading>
+                    <Title id="_IDGenTitle1" text="Vendor Details"/>
+                </f:heading>
+                <f:actions>
+
+                </f:actions>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:header>
+            <f:DynamicPageHeader id="_IDGenDynamicPageHeader1" pinnable="true">
+                <layout:HorizontalLayout id="_IDGenHorizontalLayout1" allowWrapping="true">
+                    <layout:VerticalLayout id="_IDGenVerticalLayout1" class="sapUiMediumMarginEnd">
+                        <ObjectAttribute id="_IDGenObjectAttribute1" title="First Name" text="{vendor>/VendorFirstName}"/>
+                        <ObjectAttribute id="_IDGenObjectAttribute2" title="Last Name" text="{vendor>/VendorLastName}"/>
+                    </layout:VerticalLayout>
+                    <layout:VerticalLayout id="_IDGenVerticalLayout2">
+                        <ObjectAttribute id="_IDGenObjectAttribute3" title="Email" text="{vendor>/VendorEmail}"/>
+                        <ObjectAttribute id="_IDGenObjectAttribute4" title="Phone Number" text="{vendor>/VendorPhoneNumber}"/>
+                    </layout:VerticalLayout>
+                </layout:HorizontalLayout>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <VBox  id="_IDGenVBox1" class="sapUiSmallMargin">
+                <form:SimpleForm id="vendorForm" title="Complaint Details" columnsL="2" columnsM="1">
+                    <Label id="_IDGenLabel66" text="Vendor Number" />
+                    <Text id="vendorNumberText" text="{vendor>/VendorNumber}" visible="true" />
+                    
+                    <Label id="_IDGenLabel6" text="PO Number" />
+                    <Text id="poNumberText" text="{vendor>/PONumber}" visible="true" />
+                    
+                    <Label id="_IDGenLabel7" text="Purchasing Group" />
+                    <Text id="purchasingGrpText" text="{vendor>/PurchasingGrp}" visible="true" />
+                    
+                    <Label id="_IDGenLabel8" text="Invoice Number" />
+                    <Text id="invoiceNumberText" text="{vendor>/InvoiceNumber}" visible="true" />
+                    
+                    <Label id="_IDGenLabel9" text="PO Description" />
+                    <Text id="poDescriptionText" text="{vendor>/PODescription}" visible="true" />
+                    
+                    <Label id="_IDGenLabel11" text="Complaint Category" />
+                    <Text id="complaintCategoryText" text="{vendor>/ComplaintCategory}" />
+                    
+
+                    <Label id="_IDGenLabel10" text="Complaint Description" />
+                    <Text id="complaintDescText" text="{vendor>/ComplaintDesc}" visible="true" />
+                    
+                </form:SimpleForm>
+            </VBox>
+            
+        </f:content>
+        
+            
+        
+    </f:DynamicPage>
+</mvc:View>

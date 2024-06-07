@@ -1,0 +1,16 @@
+### POST a new Vendor
+POST http://localhost:4004/odata/v4/vendor/Vendor
+Content-Type: application/json
+
+{
+    "VendorNumber": "135792468",
+    "VendorFirstName": "Alice",
+    "VendorLastName": "Johnson",
+    "VendorEmail": "alice.johnson@example.com",
+    "VendorPhoneNumber": "123-456-9876",
+    "PONumber": "PO99887",
+    "PurchasingGrp": "PG456",
+    "InvoiceNumber": "INV99887",
+    "PODescription": "Purchase order description for Alice",
+    "Status": ""
+}

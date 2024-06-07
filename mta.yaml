@@ -1,0 +1,137 @@
+_schema-version: "3.1"
+ID: ComplaintsManagement
+description: A simple CAP project.
+version: 1.0.0
+modules:
+- name: ComplaintsManagement-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: ComplaintsManagement-db
+  - name: uaa_ComplaintsManagement
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+    readiness-health-check-http-endpoint: /health
+    readiness-health-check-type: http
+  build-parameters:
+    builder: npm
+- name: ComplaintsManagement-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: ComplaintsManagement-db
+  parameters:
+    buildpack: nodejs_buildpack
+- name: ComplaintsManagement-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: ComplaintsManagement-repo-host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - dashboard.zip
+      name: dashboard
+      target-path: resources/
+- name: dashboard
+  type: html5
+  path: app/dashboard
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: ComplaintsManagement-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: ComplaintsManagement-destination-service
+    parameters:
+      content-target: true
+  - name: ComplaintsManagement-repo-host
+    parameters:
+      service-key:
+        name: ComplaintsManagement-repo-host-key
+  - name: uaa_ComplaintsManagement
+    parameters:
+      service-key:
+        name: uaa_ComplaintsManagement-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: complaints_ComplaintsManagement_repo_host
+          ServiceInstanceName: ComplaintsManagement-html5-srv
+          ServiceKeyName: ComplaintsManagement-repo-host-key
+          sap.cloud.service: complaints
+        - Authentication: OAuth2UserTokenExchange
+          Name: complaints_uaa_ComplaintsManagement
+          ServiceInstanceName: ComplaintsManagement-xsuaa-service
+          ServiceKeyName: uaa_ComplaintsManagement-key
+          sap.cloud.service: complaints
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+resources:
+- name: ComplaintsManagement-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+- name: ComplaintsManagement-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: ComplaintsManagement-html5-srv
+    service-plan: app-host
+- name: ComplaintsManagement-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          - Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
+            Name: ComplaintsManagement-srv-api
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: ComplaintsManagement-destination-service
+    service-plan: lite
+  requires:
+  - name: srv-api
+- name: uaa_ComplaintsManagement
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: ComplaintsManagement-xsuaa-service
+    service-plan: application
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm ci
+    - npx cds build --production
