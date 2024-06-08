@@ -80,7 +80,7 @@ sap.ui.define([
             console.log(oUpdateData);
         
             // Prepare the request URL
-            var serviceUrl = "/odata/v4/vendor";
+            var serviceUrl = "07557707-df9d-4f21-a852-912e791b52fc.complaints.dashboard-0.0.1/odata/v4/vendor";
             var sRequestUrl = serviceUrl + this.sSavedPath;
         
             // Make an HTTP PATCH request to update the entity

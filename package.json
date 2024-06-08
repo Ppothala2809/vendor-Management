@@ -9,7 +9,8 @@
     "@sap/cds": "^7",
     "@sap/cds-hana": "^2",
     "@sap/hana-client": "^2.20.23",
-    "express": "^4"
+    "express": "^4",
+    "@sap/xssec" : "^3.6.1"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1",
@@ -29,14 +30,11 @@
   },
   "cds": {
     "requires": {
-      "db": "hana",
-      "auth": "mocked"
-    },
-    "hana": {
-      "deploy-format": "hdbtable"
+      "db": "hana"
     }
   },
   "sapux": [
     "app/dashboard"
   ]
 }
+
