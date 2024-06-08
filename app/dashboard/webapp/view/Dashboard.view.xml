@@ -120,7 +120,7 @@
         <f:content>
             <VBox id="_IDGenVBox1">
                 
-                <!-- <Toolbar id="_IDGenToolbar1">
+                <Toolbar id="_IDGenToolbar1">
                     <ToolbarSpacer id="_IDGenToolbarSpacer1" />
                     <Button
                         id="createComplaintButton"
@@ -128,7 +128,7 @@
                         press="onCreateComplaint"
                         enabled="false"
                     />
-                </Toolbar> -->
+                </Toolbar>
                 <Table
                     id="vendorTable"
                     mode="SingleSelectLeft"
